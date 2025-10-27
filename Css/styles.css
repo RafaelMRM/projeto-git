@@ -1,0 +1,19 @@
+/* Estilo para botão */
+.button {
+    background-color: #4CAF50; /* Verde */
+    border: none;
+    color: white; /* Texto branco */
+    padding: 15px 32px; /* Espaçamento interno */
+    text-align: center; /* Centraliza o texto */
+    text-decoration: none; /* Remove sublinhado */
+    display: inline-block; /* Permite definir largura e altura */
+    font-size: 16px; /* Tamanho da fonte */
+    margin: 4px 2px; /* Margem */
+    cursor: pointer; /* Cursor de mão ao passar o mouse */
+    border-radius: 4px; /* Bordas arredondadas */
+    transition: background-color 0.3s; /* Transição suave */
+}
+
+.button:hover {
+    background-color: #45a049; /* Cor ao passar o mouse */
+}
