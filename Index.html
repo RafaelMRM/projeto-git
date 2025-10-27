@@ -1,156 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PR.ChaT 💬</title>
-    <style>
-        /* ======== ESTILOS GERAIS ======== */
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #1C1F26; /* Azul marinho escuro */
-            color: #FFFFFF;
-            margin: 0;
-            height: 100vh;
-            display: flex;  
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ======== CONTAINER PRINCIPAL ======== */
-        .chat-container {
-            width: 1000px;       /* Maior largura */
-            height: 750px;      /* Maior altura */
-            background-color: #2F2F2F; 
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
-
-        /* ======== CABEÇALHO DO CHAT ======== */
-        .chat-header {
-            background-color: #003366; 
-            text-align: center;
-            padding: 15px;
-            font-weight: bold;
-            font-size: 1.2em;
-            letter-spacing: 1px;
-        }
-
-        /* ======== ÁREA DE MENSAGENS ======== */
-        .chat-box {
-            flex: 1;
-            padding: 5px;          /* Menor padding para colar mensagens nas bordas */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-        }
-
-        /* ======== MENSAGEM DO BOT ======== */
-        .bot-message {
-            align-self: flex-start; /* Mantém à esquerda */
-        }
-
-        .bot-message p {
-            background-color: #3E3E3E;
-            color: #FFFFFF;
-            padding: 10px 15px;
-            border-radius: 10px 10px 10px 0;
-            max-width: 95%;       /* Balão quase colado na borda esquerda */
-            word-wrap: break-word;
-            display: inline-block;
-        }
-
-        /* ======== MENSAGEM DO USUÁRIO ======== */
-        .user-message {
-            align-self: flex-end;   /* Mantém à direita */
-        }
-
-        .user-message p {
-            background-color: #00509E;
-            color: #fff;
-            padding: 10px 15px;
-            border-radius: 10px 10px 0 10px;
-            max-width: 95%;        /* Balão quase colado na borda direita */
-            word-wrap: break-word;
-            display: inline-block;
-        }
-
-        /* ======== ÁREA DE ENTRADA ======== */
-        .input-area {
-            display: flex;
-            border-top: 1px solid #444;
-            background-color: #1C1F26;
-        }
-
-        .input-area input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: #2F2F2F;
-            color: #FFFFFF;
-            outline: none;
-        }
-
-        .input-area button {
-            background-color: #00509E;
-            border: none;
-            color: #fff;
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .input-area button:hover {
-            background-color: #003F7F;
-        }
-
-        /* ======== SCROLL PERSONALIZADO ======== */
-        .chat-box::-webkit-scrollbar {
-            width: 8px;
-        }
-        .chat-box::-webkit-scrollbar-thumb {
-            background-color: #555;
-            border-radius: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>IA com PHP</title>
+  <link rel="stylesheet" href="css/estilo.css">
+  <script src="js/script.js" defer></script>
 </head>
 <body>
-    
-    <div class="chat-container">
-        <!-- Cabeçalho do Chat -->
-        <div class="chat-header">🤖 PR.ChaT</div>
-
-        <!-- Área onde as mensagens vão aparecer -->
-        <div class="chat-box">
-            <div class="bot-message">
-                <p>Olá! Eu sou o PR.ChaT 😄<br>Como posso te ajudar hoje?</p>
-            </div>
-
-            <div class="user-message">
-                <p>Quanto é a conta de soma: 15 + 15?</p>
-            </div>
-
-            <div class="bot-message">
-                <p>Entendi! irei escrever a sua resposta. O resultado da sua conta é 30!
-                    <br>Acaso queira que eu te explique, é só me solicitar!</p>
-            </div>
-
-            <div class="user-message">
-                <p>Não precisa me explicar, pois isso é apenas um teste!<br>Muito obrigado pela sua ajuda :)</p>
-            </div>
-        </div>
-
-        <!-- Área de entrada de texto -->
-        <div class="input-area">
-            <input type="text" placeholder="Digite sua mensagem..." disabled>
-            <button disabled>Enviar</button>
-        </div>
-    </div>
-
+  <h1>Integração com IA</h1>
+  
+  <textarea id="entrada" placeholder="Digite algo..."></textarea>
+  <button id="enviar">Enviar para IA</button>
+  
+  <div id="resposta"></div>
 </body>
 </html>
