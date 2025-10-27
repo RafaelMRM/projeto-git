@@ -2,16 +2,42 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>IA com PHP</title>
+  <title>PR.ChaT 💬</title>
   <link rel="stylesheet" href="css/estilo.css">
   <script src="js/script.js" defer></script>
 </head>
 <body>
-  <h1>Integração com IA</h1>
-  
-  <textarea id="entrada" placeholder="Digite algo..."></textarea>
-  <button id="enviar">Enviar para IA</button>
-  
-  <div id="resposta"></div>
+    
+    <div class="chat-container">
+        <!-- Cabeçalho do Chat -->
+        <div class="chat-header">🤖 PR.ChaT</div>
+
+        <!-- Área onde as mensagens vão aparecer -->
+        <div class="chat-box">
+            <div class="bot-message">
+                <p>Olá! Eu sou o PR.ChaT 😄<br>Como posso te ajudar hoje?</p>
+            </div>
+
+            <div class="user-message">
+                <p>Quanto é a conta de soma: 15 + 15?</p>
+            </div>
+
+            <div class="bot-message">
+                <p>Entendi! irei escrever a sua resposta. O resultado da sua conta é 30!
+                    <br>Acaso queira que eu te explique, é só me solicitar!</p>
+            </div>
+
+            <div class="user-message">
+                <p>Não precisa me explicar, pois isso é apenas um teste!<br>Muito obrigado pela sua ajuda :)</p>
+            </div>
+        </div>
+
+        <!-- Área de entrada de texto -->
+        <div class="input-area">
+            <input type="text" placeholder="Digite sua mensagem..." disabled>
+            <button disabled>Enviar</button>
+        </div>
+    </div>
+
 </body>
 </html>
