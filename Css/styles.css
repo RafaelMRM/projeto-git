@@ -1,19 +1,37 @@
-/* Estilo para botão */
+
+/* Botão moderno com gradiente e efeitos */
 .button {
-    background-color: #4CAF50; /* Verde */
+    background: linear-gradient(135deg, #4CAF50, #66BB6A); /* Gradiente verde */
     border: none;
-    color: white; /* Texto branco */
-    padding: 15px 32px; /* Espaçamento interno */
-    text-align: center; /* Centraliza o texto */
-    text-decoration: none; /* Remove sublinhado */
-    display: inline-block; /* Permite definir largura e altura */
-    font-size: 16px; /* Tamanho da fonte */
-    margin: 4px 2px; /* Margem */
-    cursor: pointer; /* Cursor de mão ao passar o mouse */
-    border-radius: 4px; /* Bordas arredondadas */
-    transition: background-color 0.3s; /* Transição suave */
+    color: white;
+    padding: 15px 35px; /* Um pouco mais largo para melhor aparência */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 600; /* Deixa o texto mais chamativo */
+    margin: 5px 3px;
+    cursor: pointer;
+    border-radius: 8px; /* Bordas mais arredondadas */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15); /* Sombra suave */
+    transition: all 0.3s ease; /* Transição suave para todos os efeitos */
 }
 
+/* Hover: mudança de cor e leve elevação */
 .button:hover {
-    background-color: #45a049; /* Cor ao passar o mouse */
+    background: linear-gradient(135deg, #45a049, #5CB85C);
+    transform: translateY(-2px); /* Elevação ao passar o mouse */
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* Clique: efeito de pressão */
+.button:active {
+    transform: translateY(2px); /* “Afunda” ao clicar */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Foco: acessibilidade para teclado */
+.button:focus {
+    outline: 2px solid #2e7d32;
+    outline-offset: 2px;
 }
