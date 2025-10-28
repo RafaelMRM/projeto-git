@@ -41,3 +41,6 @@ $resposta = json_decode($response, true);
 $mensagem = $resposta["choices"][0]["message"]["content"] ?? "Erro ao gerar resposta.";
 
 echo json_encode(["resposta" => $mensagem]);
+
+?>
+
