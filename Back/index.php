@@ -1,4 +1,17 @@
 <?php
+require __DIR__ . '/vendor/autoload.php'; // carrega o autoload do Composer
+
+use Dotenv\Dotenv;
+
+$dotenv = Dotenv::createImmutable(__DIR__); // define o caminho da raiz do projeto
+$dotenv->load(); // carrega as variáveis do .env
+
+// Agora você pode acessar as variáveis assim:
+$dbHost = $_ENV['DB_HOST'] ?? 'default_host';
+$dbUser = $_ENV['DB_USER'] ?? 'default_user';
+
+echo "Host: $dbHost, Usuário: $dbUser";
+
 header("Content-Type: application/json");
 
 // Lê o corpo da requisição JSON
