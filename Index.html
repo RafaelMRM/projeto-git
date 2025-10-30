@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PR.ChaT 💬</title>
     <link rel="stylesheet" href="Css/styles.css">
-    <script src+="Js/index.js" defer></script>
+    <script src="Js/index.js" defer></script>
     <style>
         /* ======== ESTILOS GERAIS ======== */
         body {
@@ -124,34 +124,22 @@
 <body>
     
     <div class="chat-container">
-        <!-- Cabeçalho do Chat -->
-        <div class="chat-header">🤖 PR.ChaT</div>
+    <!-- Cabeçalho do Chat -->
+    <div class="chat-header">🤖 PR.ChaT</div>
 
-        <!-- Área onde as mensagens vão aparecer -->
-        <div class="chat-box">
-            <div class="bot-message">
-                <p>Olá! Eu sou o PR.ChaT 😄<br>Como posso te ajudar hoje?</p>
-            </div>
-
-            <div class="user-message">
-                <p>Quanto é a conta de soma: 15 + 15?</p>
-            </div>
-
-            <div class="bot-message">
-                <p>Entendi! irei escrever a sua resposta. O resultado da sua conta é 30!
-                    <br>Acaso queira que eu te explique, é só me solicitar!</p>
-            </div>
-
-            <div class="user-message">
-                <p>Não precisa me explicar, pois isso é apenas um teste!<br>Muito obrigado pela sua ajuda :)</p>
-            </div>
-        </div>
-
-        <!-- Área de entrada de texto -->
-        <div class="input-area">
-            <input type="text" placeholder="Digite sua mensagem...">
-            <button>Enviar</button>
+    <!-- Área onde as mensagens vão aparecer -->
+    <div class="chat-box" id="chat-box">
+        <div class="bot-message">
+            <p>Olá! Eu sou o PR.ChaT 😄<br>Como posso te ajudar hoje?</p>
         </div>
     </div>
+
+    <!-- Área de entrada de texto -->
+    <div class="input-area">
+        <input type="text" id="entrada" placeholder="Digite sua mensagem...">
+        <button id="enviar">Enviar</button>
+    </div>
+</div>
+
 </body>
 </html>

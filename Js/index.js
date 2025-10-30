@@ -1,55 +1,47 @@
-// script.js
+// Classes CSS para as mensagens
+const botClass = "bot-message";
+const userClass = "user-message";
 
-// Adiciona um ouvinte de evento ao botão "Enviar"
-// Quando o botão for clicado, executa a função abaixo
 document.getElementById("enviar").addEventListener("click", () => {
-  
-  // Captura o texto digitado pelo usuário no campo de entrada
-  const entrada = document.getElementById("entrada").value.trim();
-  
-  // Captura a div onde será exibida a resposta
-  const divResposta = document.getElementById("resposta");
-  
-  // Verifica se o campo está vazio antes de enviar
-  if (entrada === "") {
-    divResposta.innerHTML = "<p style='color:red;'>Por favor, digite uma mensagem antes de enviar.</p>";
-    return; // Interrompe a execução se o campo estiver vazio
-  }
+    // Captura o texto digitado pelo usuário
+    const entrada = document.getElementById("entrada").value.trim();
+    const chatBox = document.getElementById("chat-box");
 
-  // Exibe uma mensagem temporária enquanto o servidor processa
-  divResposta.innerHTML = "<p><em>Processando mensagem...</em></p>";
+    // Debug: verifica se o JS está capturando a mensagem
+    console.log("Mensagem a enviar:", entrada);
 
-  // Faz uma requisição HTTP para o PHP usando o método fetch()
-  fetch("backend/ia.php", { // Caminho do arquivo PHP no backend
-    method: "POST", // Tipo de envio: POST (para mandar dados)
-    headers: { 
-      "Content-Type": "application/json" // Informa que os dados estão no formato JSON
-    },
-    // Converte o texto em JSON e envia ao PHP
-    body: JSON.stringify({ texto: entrada })
-  })
-  // Quando o PHP responder, converte a resposta JSON para objeto JavaScript
-  .then(res => res.json())
+    if (!entrada) return; // não envia mensagem vazia
 
-  // Depois de receber os dados do servidor:
-  .then(data => {
-    // Se o PHP retornou um erro, mostra ele
-    if (data.erro) {
-      divResposta.innerHTML = `<p style='color:red;'>Erro: ${data.erro}</p>`;
-      return;
-    }
+    // Adiciona mensagem do usuário no chat
+    const userMsg = document.createElement("div");
+    userMsg.className = userClass;
+    userMsg.innerHTML = `<p>${entrada}</p>`;
+    chatBox.appendChild(userMsg);
 
-    // Exibe a mensagem do usuário e a resposta da IA
-    divResposta.innerHTML = `
-      <p><strong>Você:</strong> ${entrada}</p>
-      <p><strong>IA:</strong> ${data.resposta}</p>
-    `;
-  })
+    // Limpa o input
+    document.getElementById("entrada").value = "";
 
-  // Caso ocorra algum erro na comunicação (ex: servidor offline)
-  .catch(err => {
-    console.error("Erro de comunicação:", err);
-    divResposta.innerHTML = "<p style='color:red;'>Erro ao se comunicar com o servidor.</p>";
-  });
+    // Adiciona mensagem temporária do bot
+    const botTemp = document.createElement("div");
+    botTemp.className = botClass;
+    botTemp.innerHTML = `<p>Processando mensagem...</p>`;
+    chatBox.appendChild(botTemp);
+
+    // Envia a mensagem para o PHP
+    fetch("Back/api.php", { // <-- aponta para o backend PHP
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto: entrada })
+    })
+    .then(res => res.json())
+    .then(data => {
+        // Substitui a mensagem temporária pela resposta da IA
+        botTemp.innerHTML = `<p>${data.resposta || data.erro}</p>`;
+        // Rola para o final do chat
+        chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .catch(err => {
+        botTemp.innerHTML = `<p>Erro ao se comunicar com o servidor.</p>`;
+        console.error("Erro de comunicação:", err);
+    });
 });
-  
