@@ -65,7 +65,6 @@ try {
 }
 
 
-<?php
 // Conexão com o MySQL
 $servername = "localhost";
 $username = "root";
