@@ -1,145 +1,102 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PR.ChaT 💬</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="Js/index.js" defer></script>
-    <style>
-        /* ======== ESTILOS GERAIS ======== */
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #1C1F26; /* Azul marinho escuro */
-            color: #FFFFFF;
-            margin: 0;
-            height: 100vh;
-            display: flex;  
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* ======== CONTAINER PRINCIPAL ======== */
-        .chat-container {
-            width: 1000px;       /* Maior largura */
-            height: 750px;      /* Maior altura */
-            background-color: #2F2F2F; 
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
-
-        /* ======== CABEÇALHO DO CHAT ======== */
-        .chat-header {
-            background-color: #003366; 
-            text-align: center;
-            padding: 15px;
-            font-weight: bold;
-            font-size: 1.2em;
-            letter-spacing: 1px;
-        }
-
-        /* ======== ÁREA DE MENSAGENS ======== */
-        .chat-box {
-            flex: 1;
-            padding: 5px;          /* Menor padding para colar mensagens nas bordas */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            overflow-y: auto;
-        }
-
-        /* ======== MENSAGEM DO BOT ======== */
-        .bot-message {
-            align-self: flex-start; /* Mantém à esquerda */
-        }
-
-        .bot-message p {
-            background-color: #3E3E3E;
-            color: #FFFFFF;
-            padding: 10px 15px;
-            border-radius: 10px 10px 10px 0;
-            max-width: 95%;       /* Balão quase colado na borda esquerda */
-            word-wrap: break-word;
-            display: inline-block;
-        }
-
-        /* ======== MENSAGEM DO USUÁRIO ======== */
-        .user-message {
-            align-self: flex-end;   /* Mantém à direita */
-        }
-
-        .user-message p {
-            background-color: #00509E;
-            color: #fff;
-            padding: 10px 15px;
-            border-radius: 10px 10px 0 10px;
-            max-width: 95%;        /* Balão quase colado na borda direita */
-            word-wrap: break-word;
-            display: inline-block;
-        }
-
-        /* ======== ÁREA DE ENTRADA ======== */
-        .input-area {
-            display: flex;
-            border-top: 1px solid #444;
-            background-color: #1C1F26;
-        }
-
-        .input-area input {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            background: #2F2F2F;
-            color: #FFFFFF;
-            outline: none;
-        }
-
-        .input-area button {
-            background-color: #00509E;
-            border: none;
-            color: #fff;
-            padding: 12px 20px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .input-area button:hover {
-            background-color: #003F7F;
-        }
-
-        /* ======== SCROLL PERSONALIZADO ======== */
-        .chat-box::-webkit-scrollbar {
-            width: 8px;
-        }
-        .chat-box::-webkit-scrollbar-thumb {
-            background-color: #555;
-            border-radius: 10px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PR.ChaT 💬</title>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    
-    <div class="chat-container">
-    <!-- Cabeçalho do Chat -->
-    <div class="chat-header">🤖 PR.ChaT</div>
+  <div class="container">
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <!-- Logo -->
+      <div class="logo-container">
+        <img src="Logo PRchat.png" alt="Logo PRchat" class="logo">
+      </div>
 
-    <!-- Área onde as mensagens vão aparecer -->
-    <div class="chat-box" id="chat-box">
-        <div class="bot-message">
-            <p>Olá! Eu sou o PR.ChaT 😄<br>Como posso te ajudar hoje?</p>
+      <h2>Menu</h2>
+      <button class="new-chat">Novo Chat</button>
+      <button class="history">Histórico</button>
+    </aside>
+
+    <!-- Área principal do chat -->
+    <main class="chat-area">
+      <header>
+        <h1>PR.ChaT</h1>
+      </header>
+
+      <!-- Caixa de mensagens -->
+      <section id="chat-box" class="chat-box">
+        <!-- As mensagens aparecerão aqui -->
+      </section>
+
+      <footer>
+        <div class="input-container">
+          <img src="Logo PRchat.png" alt="Logo PRchat" class="input-logo">
+          <input type="text" id="entrada" placeholder="Digite sua mensagem..." />
+          <button id="enviar">Enviar</button>
         </div>
-    </div>
+      </footer>
+    </main>
+  </div>
 
-    <!-- Área de entrada de texto -->
-    <div class="input-area">
-        <input type="text" id="entrada" placeholder="Digite sua mensagem...">
-        <button id="enviar">Enviar</button>
-    </div>
-</div>
+  <!-- ============================= -->
+  <!-- SCRIPT JS DIRETO NO HTML -->
+  <!-- ============================= -->
+  <script>
+    // Classes CSS para as mensagens
+    const botClass = "bot-message";
+    const userClass = "user-message";
 
+    // Função principal de envio
+    document.getElementById("enviar").addEventListener("click", () => {
+      const entrada = document.getElementById("entrada").value.trim();
+      const chatBox = document.getElementById("chat-box");
+
+      console.log("Mensagem a enviar:", entrada); // debug
+
+      if (!entrada) return; // não envia mensagem vazia
+
+      // Adiciona mensagem do usuário
+      const userMsg = document.createElement("div");
+      userMsg.className = userClass;
+      userMsg.innerHTML = `<p>${entrada}</p>`;
+      chatBox.appendChild(userMsg);
+
+      // Limpa o campo
+      document.getElementById("entrada").value = "";
+
+      // Adiciona mensagem temporária do bot
+      const botTemp = document.createElement("div");
+      botTemp.className = botClass;
+      botTemp.innerHTML = `<p>Processando mensagem...</p>`;
+      chatBox.appendChild(botTemp);
+
+      // Envia para o backend PHP
+      fetch("Back/api.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ texto: entrada })
+      })
+      .then(res => res.json())
+      .then(data => {
+        botTemp.innerHTML = `<p>${data.resposta || data.erro}</p>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      })
+      .catch(err => {
+        botTemp.innerHTML = `<p>Erro ao se comunicar com o servidor.</p>`;
+        console.error("Erro de comunicação:", err);
+      });
+    });
+
+    // Permite enviar com Enter
+    document.getElementById("entrada").addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        document.getElementById("enviar").click();
+      }
+    });
+  </script>
 </body>
 </html>
