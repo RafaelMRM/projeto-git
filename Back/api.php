@@ -63,3 +63,30 @@ try {
     error_log("Erro PR.Chat: " . $e->getMessage());
     echo json_encode(["erro" => $e->getMessage()]);
 }
+
+
+include_once "db.php"; // Conecta ao banco
+
+// Cria um novo chat se não houver um ativo
+$chat_id = $_POST["chat_id"] ?? null;
+
+if (!$chat_id) {
+    $conn->query("INSERT INTO chats () VALUES ()");
+    $chat_id = $conn->insert_id;
+}
+
+// Salva a mensagem do usuário
+$stmt = $conn->prepare("INSERT INTO messages (chat_id, sender, message) VALUES (?, 'user', ?)");
+$stmt->bind_param("is", $chat_id, $texto);
+$stmt->execute();
+
+// Salva a resposta do bot
+$stmt = $conn->prepare("INSERT INTO messages (chat_id, sender, message) VALUES (?, 'bot', ?)");
+$stmt->bind_param("is", $chat_id, $mensagem);
+$stmt->execute();
+
+// Retorna resposta e ID do chat (para continuar no mesmo)
+echo json_encode([
+    "resposta" => $mensagem,
+    "chat_id" => $chat_id
+]);

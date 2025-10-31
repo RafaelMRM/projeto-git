@@ -45,3 +45,19 @@ document.getElementById("enviar").addEventListener("click", () => {
         console.error("Erro de comunicação:", err);
     });
 });
+
+let chatId = null;
+
+async function enviarMensagem() {
+  const texto = document.getElementById("mensagem").value;
+  const resposta = await fetch("../Back/index.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ texto, chat_id: chatId })
+  });
+
+  const data = await resposta.json();
+  chatId = data.chat_id; // Guarda o ID do chat atual
+  exibirMensagem("Você", texto);
+  exibirMensagem("Bot", data.resposta);
+}
