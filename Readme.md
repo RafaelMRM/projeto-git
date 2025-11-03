@@ -85,7 +85,7 @@ http://localhost/projeto-gilmar/projeto-gilmar/Index.html
 
 1. O usuário digita uma mensagem na interface HTML.  
 2. O JavaScript (`index.js`) envia a mensagem para o PHP (`index.php`) via `fetch`/AJAX.  
-3. O PHP processa a mensagem e faz a requisição para a API de IA (OpenAI ou similar) usando cURL.  
+3. O PHP processa a mensagem e faz a requisição para a API de IA (Gemini) usando cURL.  
 4. O PHP retorna a resposta da API e a salva no banco MySQL.  
 5. O JavaScript exibe a resposta na interface do chat.  
 
