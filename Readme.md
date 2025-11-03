@@ -77,7 +77,7 @@ http://localhost/phpmyadmin
 4. Crie um banco de dados chamado `chatbot_db`  
 5. Crie a tabela `messages` conforme a estrutura acima ou importe um arquivo SQL se houver  
 6. Abra a interface no navegador:
-http://localhost/projeto-gilmar/projeto-gilmar/Index.html
+http://localhost/htdocs/projeto-git/index.html
 
 ---
 
