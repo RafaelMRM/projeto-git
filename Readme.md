@@ -27,16 +27,29 @@ Projeto de chatbot web desenvolvido em PHP, utilizando JavaScript, HTML e CSS pa
 
 ## Estrutura do projeto
 
-projeto-gilmar/
-├── Back/
-│ └── index.php # PHP responsável por processar a API e salvar os chats
-├── Css/
-│ └── styles.css # Estilos visuais do chat
+PROJETO-GILMAR/
+│
+├── Back/                         # Lado servidor (PHP)
+│   ├── .env                      # Variáveis de ambiente
+│   ├── .gitignore                # Arquivos ignorados pelo Git
+│   ├── api.php                   # PHP que processa a API e salva os chats
+│   ├── composer.json             # Gerenciador de dependências PHP
+│   ├── composer.lock             # Lock file do Composer
+│   ├── db.php                    # Conexão com o banco de dados
+│   ├── history.php               # Retorna histórico de conversas
+│   ├── load_chat.php             # Carrega mensagens anteriores
+│   └── vendor/                   # Bibliotecas instaladas via Composer
+│
+├── css/
+│   └── styles.css                # Estilos visuais do chat
+│
 ├── Js/
-│ └── index.js # Comunicação do front-end com o PHP
-├── projeto-gilmar/
-│ └── Index.html # Interface principal do chat
-└── readme.md # Este arquivo
+│   └── index.js                  # Comunicação do front-end com o PHP
+│
+├── Index.html                    # Interface principal do chat
+├── Logo PRchat.png               # Logotipo do chatbot
+└── Readme.md                     # Documentação do projeto
+
 
 ---
 
