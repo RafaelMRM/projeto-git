@@ -4,13 +4,14 @@ header("Content-Type: application/json");
 use Dotenv\Dotenv;
 
 require __DIR__ . '/vendor/autoload.php';
+require_once "db.php"; // conexão com o banco
 
-// ======================================================
-// CARREGA VARIÁVEIS DE AMBIENTE
-// ======================================================
 try {
+    // ======================================================
+    // CARREGA VARIÁVEIS DE AMBIENTE
+    // ======================================================
     $dotenv = Dotenv::createImmutable(__DIR__);
-    $dotenv->safeLoad(); // não lança erro se .env não existir
+    $dotenv->safeLoad();
 
     $api_key = $_ENV['API_KEY'] ?? '';
     $api_url = $_ENV['API_URL'] ?? 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
@@ -20,6 +21,7 @@ try {
     // ======================================================
     $data = json_decode(file_get_contents("php://input"), true);
     $texto = trim($data["texto"] ?? '');
+    $chat_id = $data["chat_id"] ?? null;
 
     if (!$api_key) throw new Exception("Chave de API ausente.");
     if (!$texto) throw new Exception("Texto vazio.");
@@ -57,36 +59,35 @@ try {
     $res = json_decode($response, true);
     $mensagem = $res["candidates"][0]["content"]["parts"][0]["text"] ?? "Sem resposta.";
 
-    echo json_encode(["resposta" => $mensagem], JSON_UNESCAPED_UNICODE);
+    // ======================================================
+    // SALVA NO BANCO
+    // ======================================================
+    if (!$chat_id) {
+        $conn->query("INSERT INTO chats () VALUES ()");
+        $chat_id = $conn->insert_id;
+    }
+
+    // Mensagem do usuário
+    $stmt = $conn->prepare("INSERT INTO messages (chat_id, sender, message) VALUES (?, 'user', ?)");
+    $stmt->bind_param("is", $chat_id, $texto);
+    $stmt->execute();
+
+    // Resposta do bot
+    $stmt = $conn->prepare("INSERT INTO messages (chat_id, sender, message) VALUES (?, 'bot', ?)");
+    $stmt->bind_param("is", $chat_id, $mensagem);
+    $stmt->execute();
+
+    $stmt->close();
+
+    // ======================================================
+    // RETORNA RESPOSTA ÚNICA
+    // ======================================================
+    echo json_encode([
+        "resposta" => $mensagem,
+        "chat_id" => $chat_id
+    ], JSON_UNESCAPED_UNICODE);
 
 } catch (Throwable $e) {
     error_log("Erro PR.Chat: " . $e->getMessage());
     echo json_encode(["erro" => $e->getMessage()]);
 }
-
-
-include_once "db.php"; // Conecta ao banco
-
-// Cria um novo chat se não houver um ativo
-$chat_id = $_POST["chat_id"] ?? null;
-
-if (!$chat_id) {
-    $conn->query("INSERT INTO chats () VALUES ()");
-    $chat_id = $conn->insert_id;
-}
-
-// Salva a mensagem do usuário
-$stmt = $conn->prepare("INSERT INTO messages (chat_id, sender, message) VALUES (?, 'user', ?)");
-$stmt->bind_param("is", $chat_id, $texto);
-$stmt->execute();
-
-// Salva a resposta do bot
-$stmt = $conn->prepare("INSERT INTO messages (chat_id, sender, message) VALUES (?, 'bot', ?)");
-$stmt->bind_param("is", $chat_id, $mensagem);
-$stmt->execute();
-
-// Retorna resposta e ID do chat (para continuar no mesmo)
-echo json_encode([
-    "resposta" => $mensagem,
-    "chat_id" => $chat_id
-]);

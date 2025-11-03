@@ -1,17 +1,17 @@
 <?php
-// Conexão com o MySQL
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "chatbot_db";
 
 $conn = new mysqli($servername, $username, $password);
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
 
-// Cria o banco se não existir
 $conn->query("CREATE DATABASE IF NOT EXISTS $dbname CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci");
 $conn->select_db($dbname);
 
-// Cria as tabelas se não existirem
 $conn->query("
 CREATE TABLE IF NOT EXISTS chats (
     id INT AUTO_INCREMENT PRIMARY KEY,
