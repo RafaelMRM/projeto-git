@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PR.ChaT 💬</title>
+  <title>PR.ChaT</title>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -42,23 +42,25 @@
   </div>
 
   <!-- ============================= -->
-  <!-- SCRIPT JS DIRETO NO HTML -->
+  <!-- SCRIPT JS COMPLETO -->
   <!-- ============================= -->
   <script>
-    // Classes CSS para as mensagens
+    // Classes CSS para mensagens
     const botClass = "bot-message";
     const userClass = "user-message";
+    const chatBox = document.getElementById("chat-box");
 
-    // Função principal de envio
+    // ID do chat atual
+    let chatId = null;
+
+    // ============================
+    // FUNÇÃO ENVIAR MENSAGEM
+    // ============================
     document.getElementById("enviar").addEventListener("click", () => {
       const entrada = document.getElementById("entrada").value.trim();
-      const chatBox = document.getElementById("chat-box");
+      if (!entrada) return;
 
-      console.log("Mensagem a enviar:", entrada); // debug
-
-      if (!entrada) return; // não envia mensagem vazia
-
-      // Adiciona mensagem do usuário
+      // Mensagem do usuário
       const userMsg = document.createElement("div");
       userMsg.className = userClass;
       userMsg.innerHTML = `<p>${entrada}</p>`;
@@ -67,36 +69,106 @@
       // Limpa o campo
       document.getElementById("entrada").value = "";
 
-      // Adiciona mensagem temporária do bot
+      // Mensagem temporária
       const botTemp = document.createElement("div");
       botTemp.className = botClass;
       botTemp.innerHTML = `<p>Processando mensagem...</p>`;
       chatBox.appendChild(botTemp);
 
-      // Envia para o backend PHP
+      // Envia para backend
       fetch("Back/api.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ texto: entrada })
+        body: JSON.stringify({ texto: entrada, chat_id: chatId })
       })
       .then(res => res.json())
       .then(data => {
-        botTemp.innerHTML = `<p>${data.resposta || data.erro}</p>`;
+        if (data.erro) {
+          botTemp.innerHTML = `<p>Erro: ${data.erro}</p>`;
+        } else {
+          chatId = data.chat_id;
+          botTemp.innerHTML = `<p>${data.resposta}</p>`;
+        }
         chatBox.scrollTop = chatBox.scrollHeight;
       })
       .catch(err => {
-        botTemp.innerHTML = `<p>Erro ao se comunicar com o servidor.</p>`;
         console.error("Erro de comunicação:", err);
+        botTemp.innerHTML = `<p>Erro ao se comunicar com o servidor.</p>`;
       });
     });
 
-    // Permite enviar com Enter
+    // Enviar com Enter
     document.getElementById("entrada").addEventListener("keypress", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
         document.getElementById("enviar").click();
       }
     });
+
+    // ============================
+    // NOVO CHAT
+    // ============================
+    document.querySelector(".new-chat").addEventListener("click", () => {
+      chatId = null;
+      chatBox.innerHTML = "";
+      const aviso = document.createElement("div");
+      aviso.className = botClass;
+      aviso.innerHTML = "<p>Novo chat iniciado.</p>";
+      chatBox.appendChild(aviso);
+    });
+
+    // ============================
+    // HISTÓRICO
+    // ============================
+    document.querySelector(".history").addEventListener("click", async () => {
+      try {
+        const res = await fetch("Back/history.php");
+        const data = await res.json();
+
+        chatBox.innerHTML = "<h3 style='color:white;'>Histórico de Chats:</h3>";
+
+        if (data.length === 0) {
+          chatBox.innerHTML += "<p style='color:gray;'>Nenhum chat encontrado.</p>";
+          return;
+        }
+
+        data.forEach(chat => {
+          const item = document.createElement("div");
+          item.className = "bot-message";
+          item.style.cursor = "pointer";
+          item.innerHTML = `<p>Chat #${chat.id} — ${chat.created_at}</p>`;
+          item.addEventListener("click", () => carregarChat(chat.id));
+          chatBox.appendChild(item);
+        });
+      } catch (err) {
+        console.error(err);
+        chatBox.innerHTML = "<p style='color:red;'>Erro ao carregar histórico.</p>";
+      }
+    });
+
+    // ============================
+    // CARREGAR CHAT ESPECÍFICO
+    // ============================
+    async function carregarChat(id) {
+      try {
+        const res = await fetch(`Back/load_chat.php?chat_id=${id}`);
+        const data = await res.json();
+        chatBox.innerHTML = "";
+
+        data.forEach(msg => {
+          const div = document.createElement("div");
+          div.className = msg.sender === "user" ? "user-message" : "bot-message";
+          div.innerHTML = `<p>${msg.message}</p>`;
+          chatBox.appendChild(div);
+        });
+
+        chatId = id;
+        chatBox.scrollTop = chatBox.scrollHeight;
+      } catch (e) {
+        console.error(e);
+        chatBox.innerHTML = "<p style='color:red;'>Erro ao carregar o chat.</p>";
+      }
+    }
   </script>
 </body>
 </html>
